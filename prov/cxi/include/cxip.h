@@ -3015,7 +3015,10 @@ int cxip_cmdq_emit_c_state(struct cxip_cmdq *cmdq,
 
 static inline bool cxip_cmdq_empty(struct cxip_cmdq *cmdq)
 {
-	return cxi_cq_empty(cmdq->dev_cmdq);
+    uint64_t wp = cmdq->dev_cmdq->wp32 / 2;
+
+    return wp == cmdq->dev_cmdq->status->rd_ptr;
+    //return cxi_cq_empty(cmdq->dev_cmdq);
 }
 
 static inline bool cxip_cmdq_match(struct cxip_cmdq *cmdq, uint16_t vni,

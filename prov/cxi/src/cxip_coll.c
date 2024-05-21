@@ -422,6 +422,10 @@ static inline int flt_op_to_opcode(int op)
 	if (op != FI_SUM)
 		return _flt_op_to_opcode[op];
 
+    return (_MM_GET_FLUSH_ZERO_MODE()) ?
+            COLL_OPCODE_FLT_SUM_FTZ_RND0 :
+            COLL_OPCODE_FLT_SUM_NOFTZ_RND0;
+/*
 	switch (fegetround()) {
 	case FE_TONEAREST:
 		return (_MM_GET_FLUSH_ZERO_MODE()) ?
@@ -440,6 +444,7 @@ static inline int flt_op_to_opcode(int op)
 			COLL_OPCODE_FLT_SUM_FTZ_RND3 :
 			COLL_OPCODE_FLT_SUM_NOFTZ_RND3;
 	}
+*/
 	return -FI_EOPNOTSUPP;
 }
 
